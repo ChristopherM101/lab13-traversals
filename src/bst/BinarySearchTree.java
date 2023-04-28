@@ -136,9 +136,26 @@ public class BinarySearchTree<T extends Comparable<T>> {
 	//Traverse the tree in an preorder fashion but using a stack
 	//Print the current node first and then recurse on the children
 	public void preOrderStack() {
-		Stack<BSTNode<T>> pre = new Stack<BSTNode<T>>();
-		
-	}
+        if (root == null) {
+            return;
+        }
+        
+        Stack<BSTNode<T>> pre = new Stack<BSTNode<T>>();
+        BSTNode<T> curr = root;
+        
+        while (curr != null || pre.size() > 0)
+        {
+            while (curr != null)
+            {
+                pre.push(curr);
+                System.out.print(curr + " ");
+                curr = curr.leftChild;
+            }
+            curr = pre.pop();
+            
+            curr = curr.rightChild;
+        }
+    }
 		
 
 	//Traverse the tree in an inorder fashion
@@ -162,8 +179,27 @@ public class BinarySearchTree<T extends Comparable<T>> {
 	}
 	//Traverse the tree in an inorder fashion but using a stack
 	public void inOrderStack() {
+		if (root == null)
+        {
+            return;
+        }
+        
 		Stack<BSTNode<T>> in = new Stack<BSTNode<T>>();
-		
+        BSTNode<T> curr = root;
+        
+        while (curr != null || in.size() > 0)
+        {
+            while (curr != null)
+            {
+                in.push(curr);
+                curr = curr.leftChild;
+            }
+            
+            curr = in.pop();
+            System.out.print(curr + " ");
+            
+            curr = curr.rightChild;
+        }
 		
 	}
 	
@@ -190,21 +226,34 @@ public class BinarySearchTree<T extends Comparable<T>> {
 	//This is more difficult than the other traversals using a Stack
 	//I suggest using two stacks. Think about the order you want the elements
 	//to appear on the stack you will print.
-	public void postOrderStack() {
+	public void postOrderStack()
+	{
 		Stack<BSTNode<T>> post = new Stack<>();
 		Stack<BSTNode<T>> postHelper = new Stack<>();
-		if(root!=null) {
+		
+		if(root!=null)
+		{
 			postHelper.push(root);
-			while(!postHelper.isEmpty()) {
+			while(!postHelper.isEmpty())
+			{
 				//how should post and postHelper be updated?
+				BSTNode<T> node = postHelper.pop();
+	            post.push(node);
+	            
+	            if (node.leftChild != null) {
+	                postHelper.push(node.leftChild);
+	            }
+	            if (node.rightChild != null) {
+	                postHelper.push(node.rightChild);
+	            }
 			}
 			
-			while(!post.isEmpty()) {
+			while(!post.isEmpty())
+			{
 				BSTNode<T> node = post.pop();
 				System.out.print(node + " ");
 			}
 		}
-
 	}
 	
 	public String toString() {
